@@ -1,0 +1,36 @@
+{
+  "name": "auto-health-checkin",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "repository": "git@github.com:Soulike/AutoHealthCheckIn.git",
+  "author": "Soulike <soulike@qq.com>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "node-fetch": "^3.0.0",
+    "selenium-webdriver": "^4.0.0",
+    "signale": "^1.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.6",
+    "@types/selenium-webdriver": "^4.0.16",
+    "@types/signale": "^1.4.2",
+    "typescript": "^4.4.4"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "signale": {
+    "displayScope": true,
+    "displayBadge": true,
+    "displayDate": true,
+    "displayFilename": false,
+    "displayLabel": true,
+    "displayTimestamp": true,
+    "underlineLabel": true,
+    "underlineMessage": false,
+    "underlinePrefix": false,
+    "underlineSuffix": false,
+    "uppercaseLabel": false
+  }
+}
