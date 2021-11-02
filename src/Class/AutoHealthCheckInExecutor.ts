@@ -6,7 +6,7 @@ import signale from 'signale';
 
 export class AutoHealthCheckInExecutor
 {
-    private driver: WebDriver;
+    private readonly driver: WebDriver;
 
     constructor(driver: WebDriver)
     {
