@@ -19,10 +19,7 @@ import signale from 'signale';
     signale.success('webdriver 构建成功');
 
     // 启动时立即进行一次打卡
-    for (const account of ACCOUNTS)
-    {
-        await executor.doCheckIn(account);
-    }
+    await Promise.all(ACCOUNTS.map(account => executor.doCheckIn(account)));
     await driver.close();
 
     /** 一个小时，毫秒 */
@@ -34,11 +31,7 @@ import signale from 'signale';
         if (nowDate.getHours() === CHECK_IN_HOUR)
         {
             signale.info('到达设定打卡时间，开始打卡');
-            // 这里不能使用 Promise.all，因为并行登录可能会导致 cookie 竞争
-            for (const account of ACCOUNTS)
-            {
-                await executor.doCheckIn(account);
-            }
+            await Promise.all(ACCOUNTS.map(account => executor.doCheckIn(account)));
             await driver.close();
         }
     }
