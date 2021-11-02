@@ -23,6 +23,7 @@ import signale from 'signale';
     {
         await executor.doCheckIn(account);
     }
+    await driver.close();
 
     /** 一个小时，毫秒 */
     const ONE_HOUR = 1 * 60 * 60 * 1000;
@@ -38,6 +39,7 @@ import signale from 'signale';
             {
                 await executor.doCheckIn(account);
             }
+            await driver.close();
         }
     }
 })();
