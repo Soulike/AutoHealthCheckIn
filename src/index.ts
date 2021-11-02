@@ -18,6 +18,12 @@ import signale from 'signale';
 
     signale.success('webdriver 构建成功');
 
+    // 启动时立即进行一次打卡
+    for (const account of ACCOUNTS)
+    {
+        await executor.doCheckIn(account);
+    }
+
     /** 一个小时，毫秒 */
     const ONE_HOUR = 1 * 60 * 60 * 1000;
 
