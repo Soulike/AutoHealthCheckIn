@@ -14,13 +14,19 @@ import signale from 'signale';
         .setChromeOptions(new chrome.Options().setChromeBinaryPath(CHROME_PATH))
         .setChromeOptions(new chrome.Options().headless())
         .build();
+
+    // 退出之前清理
+    process.on('beforeExit', async () =>
+    {
+        await driver.quit();
+    });
+
     const executor = new AutoHealthCheckInExecutor(driver);
 
     signale.success('webdriver 构建成功');
 
     // 启动时立即进行一次打卡
     await Promise.all(ACCOUNTS.map(account => executor.doCheckIn(account)));
-    await driver.close();
 
     /** 一个小时，毫秒 */
     const ONE_HOUR = 1 * 60 * 60 * 1000;
@@ -32,7 +38,6 @@ import signale from 'signale';
         {
             signale.info('到达设定打卡时间，开始打卡');
             await Promise.all(ACCOUNTS.map(account => executor.doCheckIn(account)));
-            await driver.close();
         }
     }
 })();
