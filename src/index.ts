@@ -28,16 +28,29 @@ import signale from 'signale';
     // 启动时立即进行一次打卡
     await Promise.all(ACCOUNTS.map(account => executor.doCheckIn(account)));
 
-    /** 一个小时，毫秒 */
-    const ONE_HOUR = 1 * 60 * 60 * 1000;
+    // 今天是不是已经打卡了？
+    let checkedInToday = false;
 
-    for await (const _ of setInterval(ONE_HOUR))
+    // 挑选一个质数分钟作为间隔，随机化打卡分钟
+    const INTERVAL = 19 * 60 * 1000;
+
+    for await (const _ of setInterval(INTERVAL))
     {
-        const nowDate = new Date();
-        if (nowDate.getHours() === CHECK_IN_HOUR)
+        if (!checkedInToday)
         {
-            signale.info('到达设定打卡时间，开始打卡');
-            await Promise.all(ACCOUNTS.map(account => executor.doCheckIn(account)));
+            const nowDate = new Date();
+            if (nowDate.getHours() === CHECK_IN_HOUR)
+            {
+                signale.info('到达设定打卡时间，开始打卡');
+                await Promise.all(ACCOUNTS.map(account => executor.doCheckIn(account)));
+                checkedInToday = true;
+
+                // 一个小时后，重置是否已打卡
+                setTimeout(() =>
+                {
+                    checkedInToday = false;
+                }, 60 * 60 * 1000);
+            }
         }
     }
 })();
